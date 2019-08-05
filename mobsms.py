@@ -1,8 +1,9 @@
-#!/usr/bin/env python
+# http://wiki.mob.com/webapi2-0/
 # encoding: utf-8
 import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
-__author__ = 'rui'
+__author__ = 'fenglui'
 
 
 class MobSMS:
@@ -15,6 +16,7 @@ class MobSMS:
             return 200
 
         data = {'appkey': self.appkey, 'phone': phone, 'zone': zone, 'code': code}
+        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         req = requests.post(self.verify_url, data=data, verify=False)
         if req.status_code == 200:
             j = req.json()
@@ -24,5 +26,6 @@ class MobSMS:
 
 
 if __name__ == '__main__':
-    mobsms = MobSMS('your_mob_sms_key_goes_here')
-    print mobsms.verify_sms_code(86, 13900000000, '1234')
+    # 禁用安全请求警告
+    mobsms = MobSMS('2bf20b97bacb4')
+    print (mobsms.verify_sms_code(86, 18913628175, '1234'))
